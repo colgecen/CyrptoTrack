@@ -32,8 +32,8 @@
 Build and run from source:
 
 ```bash
-git clone https://github.com/colgecen/cyrpto-tracking-app.git
-cd cyrpto-tracking-app
+git clone https://github.com/colgecen/CyrptoTrack.git
+cd CyrptoTrack
 ./cryptotrack --install
 ```
 
@@ -43,7 +43,7 @@ cd cyrpto-tracking-app
 cryptotrack
 ```
 
-Prebuilt binaries are available on the [Releases](https://github.com/colgecen/cyrpto-tracking-app/releases) page.
+Prebuilt binaries are available on the [Releases](https://github.com/colgecen/CyrptoTrack/releases) page.
 
 ## Usage
 
