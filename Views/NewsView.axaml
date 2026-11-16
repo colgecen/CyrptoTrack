@@ -46,12 +46,12 @@
                 <!-- Başlık -->
                 <Grid ColumnDefinitions="*,Auto" VerticalAlignment="Center">
                     <StackPanel Spacing="3">
-                        <TextBlock Text="Haberler" FontSize="24" FontWeight="800"
+                        <TextBlock Text="{Binding Loc[NewsTitle]}" FontSize="24" FontWeight="800"
                                    Foreground="{DynamicResource TextPrimaryBrush}"/>
-                        <TextBlock Text="{Binding NewsLastUpdate, StringFormat='Son güncelleme: {0}'}"
+                        <TextBlock Text="{Binding NewsLastUpdateText}"
                                    FontSize="12" Foreground="{DynamicResource TextMutedBrush}"/>
                     </StackPanel>
-                    <Button Grid.Column="1" Content="Yenile"
+                    <Button Grid.Column="1" Content="{Binding Loc[CommonRefresh]}"
                             Command="{Binding RefreshCommand}"
                             Background="{DynamicResource BackgroundTertiaryBrush}"
                             Foreground="{DynamicResource TextSecondaryBrush}"
@@ -69,7 +69,7 @@
                                   Width="15" Height="15" Foreground="{DynamicResource TextMutedBrush}"
                                   VerticalAlignment="Center" Margin="0,0,12,0"/>
                         <TextBox Grid.Column="1" Text="{Binding NewsSearchQuery}"
-                                 PlaceholderText="Haber başlığı, kaynak veya kategori ara…"
+                                 PlaceholderText="{Binding Loc[NewsSearchPlaceholder]}"
                                  Background="Transparent" BorderThickness="0"
                                  Foreground="{DynamicResource TextPrimaryBrush}" FontSize="13.5" Padding="0"
                                  HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center"
@@ -79,9 +79,9 @@
 
                 <!-- Kategori filtreleri -->
                 <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Button Classes="chip" Content="Tümü"
-                            Command="{Binding SetNewsCategoryCommand}" CommandParameter="Tümü"
-                            Classes.active="{Binding NewsCategory, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Tümü}"/>
+                    <Button Classes="chip" Content="{Binding Loc[NewsAll]}"
+                            Command="{Binding SetNewsCategoryCommand}" CommandParameter="All"
+                            Classes.active="{Binding NewsCategory, Converter={StaticResource StringEqualsConverter}, ConverterParameter=All}"/>
                     <Button Classes="chip" Content="BTC"
                             Command="{Binding SetNewsCategoryCommand}" CommandParameter="BTC"
                             Classes.active="{Binding NewsCategory, Converter={StaticResource StringEqualsConverter}, ConverterParameter=BTC}"/>
@@ -98,7 +98,7 @@
 
                 <!-- Haber kartları -->
                 <Panel>
-                    <TextBlock Text="Aramanıza uygun haber bulunamadı."
+                    <TextBlock Text="{Binding Loc[NewsEmpty]}"
                                FontSize="14" Foreground="{DynamicResource TextMutedBrush}"
                                Margin="4,30,0,0"
                                IsVisible="{Binding IsEmptyNewsList}"
@@ -115,7 +115,7 @@
                             <Button Classes="news-card"
                                     Command="{Binding DataContext.OpenNewsArticleCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                     CommandParameter="{Binding}"
-                                    ToolTip.Tip="Haberi aç">
+                                    ToolTip.Tip="{Binding Loc[NewsOpen]}">
                                 <Border CornerRadius="13" ClipToBounds="True"
                                         Background="{DynamicResource BackgroundSecondaryBrush}">
                                     <StackPanel>
@@ -165,7 +165,7 @@
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <PathIcon Data="M15 18l-6-6 6-6"
                                   Width="14" Height="14" Foreground="#00D1FF" VerticalAlignment="Center"/>
-                        <TextBlock Text="Haberler'e dön" FontSize="13" FontWeight="600" Foreground="#00D1FF"/>
+                        <TextBlock Text="{Binding Loc[NewsBack]}" FontSize="13" FontWeight="600" Foreground="#00D1FF"/>
                     </StackPanel>
                 </Button>
 
@@ -196,7 +196,7 @@
                 <TextBlock Text="{Binding SelectedNewsArticle.PlainBody}" FontSize="15" LineHeight="25"
                            TextWrapping="Wrap" Foreground="#C7CFDB"/>
 
-                <Button Content="Haberin kaynağında aç"
+                <Button Content="{Binding Loc[NewsOpenSource]}"
                         Command="{Binding OpenNewsInBrowserCommand}"
                         Background="#00D1FF" Foreground="#08111C" BorderThickness="0"
                         CornerRadius="10" Padding="18,10" FontSize="13" FontWeight="700"

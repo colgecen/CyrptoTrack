@@ -4,6 +4,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
+using AvaloniaAppCrypto.Localization;
 
 namespace AvaloniaAppCrypto.Controls
 {
@@ -67,7 +68,7 @@ namespace AvaloniaAppCrypto.Controls
 
             if (_hover)
             {
-                var label = $"Endeks: {clamped:0} / 100";
+                var label = Localizer.Format("GaugeIndex", clamped.ToString("0"));
                 DrawTooltip(context, label, new Point(cx, cy - r - 8), w, h, valColor);
             }
         }

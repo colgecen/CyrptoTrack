@@ -4,6 +4,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
 using AvaloniaAppCrypto.Interfaces;
+using AvaloniaAppCrypto.Localization;
 using AvaloniaAppCrypto.Services;
 using AvaloniaAppCrypto.ViewModels;
 using AvaloniaAppCrypto.Views;
@@ -51,6 +52,10 @@ namespace AvaloniaAppCrypto
             services.AddTransient<MainWindowViewModel>();
 
             Services = services.BuildServiceProvider();
+
+            var startupSettings = Services.GetRequiredService<ISettingsService>()
+                .GetSettingsAsync().GetAwaiter().GetResult();
+            Localizer.SetLanguage(startupSettings.Language);
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {

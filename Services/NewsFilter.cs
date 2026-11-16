@@ -29,7 +29,7 @@ namespace AvaloniaAppCrypto.Services
         public static bool MatchesCategory(NewsArticle article, string? category)
         {
             if (article is null) return false;
-            if (string.IsNullOrWhiteSpace(category) || category == "Tümü")
+            if (string.IsNullOrWhiteSpace(category) || category == "All" || category == "Tümü")
                 return true;
 
             var haystack = $"{article.Categories} {article.Title}";

@@ -6,6 +6,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
+using AvaloniaAppCrypto.Localization;
 using AvaloniaAppCrypto.Models;
 
 namespace AvaloniaAppCrypto.Controls
@@ -101,7 +102,7 @@ namespace AvaloniaAppCrypto.Controls
 
                 var isUp = c.Close >= c.Open;
                 var accent = isUp ? Color.Parse("#0ECB81") : Color.Parse("#F6465D");
-                var text = $"{c.Time:dd MMM HH:mm}\nAçılış: ${c.Open:N2}\nYüksek: ${c.High:N2}\nDüşük:  ${c.Low:N2}\nKapanış: ${c.Close:N2}";
+                var text = $"{c.Time:dd MMM HH:mm}\n{Localizer.Translate("CandleOpen")}: ${c.Open:N2}\n{Localizer.Translate("CandleHigh")}: ${c.High:N2}\n{Localizer.Translate("CandleLow")}:  ${c.Low:N2}\n{Localizer.Translate("CandleClose")}: ${c.Close:N2}";
                 DrawTooltip(context, text, new Point(x, Y(c.High)), w, h, accent);
             }
         }

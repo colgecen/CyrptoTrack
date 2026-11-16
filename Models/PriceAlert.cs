@@ -1,4 +1,5 @@
 using System;
+using AvaloniaAppCrypto.Localization;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaAppCrypto.Models
@@ -37,5 +38,12 @@ namespace AvaloniaAppCrypto.Models
 
         [ObservableProperty]
         private decimal _currentPriceAtCreation;
+
+        public string ConditionText =>
+            Condition == "Above"
+                ? Localizer.Translate("AlertsAbove")
+                : Localizer.Translate("AlertsBelow");
+
+        public void RefreshLocalizedText() => OnPropertyChanged(nameof(ConditionText));
     }
 }

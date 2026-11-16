@@ -8,6 +8,7 @@ using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using AvaloniaAppCrypto.Interfaces;
+using AvaloniaAppCrypto.Localization;
 using AvaloniaAppCrypto.Models;
 
 
@@ -32,11 +33,14 @@ namespace AvaloniaAppCrypto.ViewModels
         private DateTime _lastBtcChartRefresh = DateTime.MinValue;
         private DateTime _lastAlertCheck = DateTime.MinValue;
         private readonly Dictionary<string, DateTime> _lastWsUpdate = new(StringComparer.OrdinalIgnoreCase);
+        private string _connectionStateKey = "MainConnected";
+        private int _fearGreedApiValue;
+        private string _fearGreedApiLabel = string.Empty;
 
         [ObservableProperty] private bool _isSidebarCollapsed;
         [ObservableProperty] private string _currentPage = "Dashboard";
         [ObservableProperty] private bool _isConnected = true;
-        [ObservableProperty] private string _connectionStatusText = "Bağlı";
+        [ObservableProperty] private string _connectionStatusText = Localizer.Translate("MainConnected");
         [ObservableProperty] private string _lastUpdated = "-";
         [ObservableProperty] private string _connectionStatusColor = "#10B981";
         [ObservableProperty] private string _searchQuery = string.Empty;
@@ -53,7 +57,7 @@ namespace AvaloniaAppCrypto.ViewModels
         [ObservableProperty] private string _totalVolume24h = "$0";
         [ObservableProperty] private string _btcDominance = "0%";
         [ObservableProperty] private string _marketCapChange = "0%";
-        [ObservableProperty] private string _fearGreedIndex = "72 (Açgözlük)";
+        [ObservableProperty] private string _fearGreedIndex = Localizer.Translate("FearGreedDefault");
         [ObservableProperty] private double _fearGreedValue = 50;
 
         // Chart Data
@@ -86,7 +90,7 @@ namespace AvaloniaAppCrypto.ViewModels
             }
             catch (Exception ex)
             {
-                _toastService.Show($"Mum grafiği yüklenemedi: {ex.Message}", ToastType.Error, 3000);
+                _toastService.Show(Localizer.Format("ErrorCandleChart", ex.Message), ToastType.Error, 3000);
             }
         }
 
@@ -116,7 +120,7 @@ namespace AvaloniaAppCrypto.ViewModels
             }
             catch (Exception ex)
             {
-                _toastService.Show($"Karşılaştırma grafiği yüklenemedi: {ex.Message}", ToastType.Error, 3000);
+                _toastService.Show(Localizer.Format("ErrorComparisonChart", ex.Message), ToastType.Error, 3000);
             }
         }
 
@@ -134,7 +138,7 @@ namespace AvaloniaAppCrypto.ViewModels
             }
             catch (Exception ex)
             {
-                _toastService.Show($"Grafik yüklenemedi: {ex.Message}", ToastType.Error, 3000);
+                _toastService.Show(Localizer.Format("ErrorChart", ex.Message), ToastType.Error, 3000);
             }
         }
 
@@ -143,17 +147,17 @@ namespace AvaloniaAppCrypto.ViewModels
 
         public ObservableCollection<Models.NavigationItem> NavigationItems { get; } = new()
         {
-            new Models.NavigationItem { Page = "Dashboard", Icon = "📊", Title = "Dashboard", IsActive = true,
+            new Models.NavigationItem { Page = "Dashboard", Icon = "📊", Title = Localizer.Translate("NavDashboard"), IsActive = true,
                 IconData = "M22 12h-4l-3 9L9 3l-3 9H2" },
-            new Models.NavigationItem { Page = "Favorites", Icon = "⭐", Title = "Favoriler",
+            new Models.NavigationItem { Page = "Favorites", Icon = "⭐", Title = Localizer.Translate("NavFavorites"),
                 IconData = "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" },
-            new Models.NavigationItem { Page = "Portfolio", Icon = "💼", Title = "Portföy",
+            new Models.NavigationItem { Page = "Portfolio", Icon = "💼", Title = Localizer.Translate("NavPortfolio"),
                 IconData = "M20 7h-3V5a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v2H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM9 5h6v2H9V5z" },
-            new Models.NavigationItem { Page = "Alerts", Icon = "🔔", Title = "Alarmlar",
+            new Models.NavigationItem { Page = "Alerts", Icon = "🔔", Title = Localizer.Translate("NavAlerts"),
                 IconData = "M12 2c-2.76 0-5 2.24-5 5v5l-2 4h14l-2-4V7c0-2.76-2.24-5-5-5zm0 18c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2z" },
-            new Models.NavigationItem { Page = "News", Icon = "📰", Title = "Haberler",
+            new Models.NavigationItem { Page = "News", Icon = "📰", Title = Localizer.Translate("NavNews"),
                 IconData = "M4 6h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2zm2 4h10v2H6V10zm0 4h12v2H6v-2z" },
-            new Models.NavigationItem { Page = "Settings", Icon = "⚙️", Title = "Ayarlar",
+            new Models.NavigationItem { Page = "Settings", Icon = "⚙️", Title = Localizer.Translate("NavSettings"),
                 IconData = "M19.14 12.94c.04-.3.06-.62.06-.94s-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" }
         };
 
@@ -183,7 +187,7 @@ namespace AvaloniaAppCrypto.ViewModels
         public ObservableCollection<NewsArticle> FilteredNewsArticles { get; } = new();
 
         [ObservableProperty] private string _newsSearchQuery = string.Empty;
-        [ObservableProperty] private string _newsCategory = "Tümü";
+        [ObservableProperty] private string _newsCategory = "All";
         [ObservableProperty] private bool _isEmptyNewsList;
         [ObservableProperty] private NewsArticle? _selectedNewsArticle;
         [ObservableProperty] private bool _isNewsDetailOpen;
@@ -201,17 +205,28 @@ namespace AvaloniaAppCrypto.ViewModels
 
         // News
         [ObservableProperty] private string _newsLastUpdate = "";
+        [ObservableProperty] private string _newsLastUpdateText = "";
+        [ObservableProperty] private string _alertsActiveHeader = "";
+        [ObservableProperty] private string _alertsHistoryHeader = "";
 
         // Alert filter
-        [ObservableProperty] private string _alertFilter = "Tümü";
+        [ObservableProperty] private string _alertFilter = "All";
 
-        public System.Collections.ObjectModel.ObservableCollection<string> AlertConditions { get; } = new() { "Above", "Below" };
+        public System.Collections.ObjectModel.ObservableCollection<string> AlertConditions { get; } = new();
 
         // New alert form
         [ObservableProperty] private bool _isAddAlertOpen;
         [ObservableProperty] private Coin? _newAlertCoin;
         [ObservableProperty] private decimal _newAlertTargetPrice;
         [ObservableProperty] private string _newAlertCondition = "Above";
+
+        // Settings
+        public System.Collections.ObjectModel.ObservableCollection<string> Languages { get; } =
+            new() { Localizer.Turkish, Localizer.English };
+
+        [ObservableProperty] private string _selectedLanguage = Localizer.Language;
+
+        public Task InitializationTask { get; }
 
         public MainWindowViewModel(
             ICoinGeckoService coinGeckoService,
@@ -239,8 +254,12 @@ namespace AvaloniaAppCrypto.ViewModels
             _connectivityService.ConnectivityChanged += OnConnectivityChanged;
             _binanceWsService.PriceUpdated += OnPriceUpdated;
             _coinCapWsService.PriceUpdated += OnCoinCapPriceUpdated;
+            Localizer.LanguageChanged += OnLanguageChanged;
 
-            _ = InitializeAsync();
+            RefreshAlertConditions();
+            UpdateLocalizedText();
+
+            InitializationTask = InitializeAsync();
         }
 
         private async Task InitializeAsync()
@@ -248,9 +267,12 @@ namespace AvaloniaAppCrypto.ViewModels
             _settings = await _settingsService.GetSettingsAsync();
             CoinGeckoApiKey = _settings.CoinGeckoApiKey ?? string.Empty;
             CryptoCompareApiKey = _settings.CryptoCompareApiKey ?? string.Empty;
+            SelectedLanguage = Localizer.IsEnglish(_settings.Language) ? Localizer.English : Localizer.Turkish;
+            Localizer.SetLanguage(SelectedLanguage);
+            UpdateLocalizedText();
 
             if (string.IsNullOrWhiteSpace(CoinGeckoApiKey) || string.IsNullOrWhiteSpace(CryptoCompareApiKey))
-                _toastService.Show("API anahtarı eksik. Ayarlar ekranından girin.", ToastType.Warning, 0);
+                _toastService.Show(Localizer.Translate("ErrorMissingApiKey"), ToastType.Warning, 0);
 
             StartAutoRefresh();
 
@@ -266,6 +288,69 @@ namespace AvaloniaAppCrypto.ViewModels
             await LoadComparisonChart("7");
             LastUpdated = DateTime.Now.ToString("HH:mm:ss");
             _ = ConnectWebSocketsAsync();
+        }
+
+        private void OnLanguageChanged() => UpdateLocalizedText();
+
+        private void UpdateLocalizedText()
+        {
+            var navKeys = new[] { "NavDashboard", "NavFavorites", "NavPortfolio", "NavAlerts", "NavNews", "NavSettings" };
+            for (var i = 0; i < NavigationItems.Count && i < navKeys.Length; i++)
+                NavigationItems[i].Title = Localizer.Translate(navKeys[i]);
+
+            ConnectionStatusText = Localizer.Translate(_connectionStateKey);
+            NewsLastUpdateText = Localizer.Format("NewsLastUpdated", NewsLastUpdate);
+            UpdateAlertHeaders();
+
+            foreach (var alert in Alerts.Concat(TriggeredAlerts))
+                alert.RefreshLocalizedText();
+            foreach (var article in NewsArticles)
+                article.RefreshLocalizedText();
+
+            if (_fearGreedApiValue > 0)
+                FearGreedIndex = $"{_fearGreedApiValue} ({Localizer.FearGreedLabel(_fearGreedApiLabel)})";
+
+            if (Coins.Count > 0)
+                BuildMarketSegments();
+
+            RefreshAlertConditions();
+        }
+
+        private void UpdateAlertHeaders()
+        {
+            AlertsActiveHeader = Localizer.Format("AlertsActiveHeader", Alerts.Count);
+            AlertsHistoryHeader = Localizer.Format("AlertsHistoryHeader", TriggeredAlerts.Count);
+        }
+
+        private void RefreshAlertConditions()
+        {
+            var current = NormalizeCondition(NewAlertCondition);
+            AlertConditions.Clear();
+            AlertConditions.Add(Localizer.Translate("AlertsAbove"));
+            AlertConditions.Add(Localizer.Translate("AlertsBelow"));
+            NewAlertCondition = Localizer.Translate(current == "Above" ? "AlertsAbove" : "AlertsBelow");
+        }
+
+        private static string NormalizeCondition(string? condition)
+        {
+            if (string.Equals(condition, "Below", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(condition, Localizer.Translate("AlertsBelow"), StringComparison.OrdinalIgnoreCase))
+                return "Below";
+            return "Above";
+        }
+
+        partial void OnSelectedLanguageChanged(string value)
+        {
+            Localizer.SetLanguage(value);
+            UpdateLocalizedText();
+        }
+
+        private void SetConnectionStatus(string key, string color, bool connected)
+        {
+            _connectionStateKey = key;
+            ConnectionStatusText = Localizer.Translate(key);
+            ConnectionStatusColor = color;
+            IsConnected = connected;
         }
 
         private async Task LoadGlobalDataAsync()
@@ -285,7 +370,9 @@ namespace AvaloniaAppCrypto.ViewModels
                 var (fgValue, fgLabel) = await _coinGeckoService.GetFearGreedIndexAsync();
                 if (fgValue > 0)
                 {
-                    FearGreedIndex = $"{fgValue} ({fgLabel})";
+                    _fearGreedApiValue = fgValue;
+                    _fearGreedApiLabel = fgLabel;
+                    FearGreedIndex = $"{fgValue} ({Localizer.FearGreedLabel(fgLabel)})";
                     FearGreedValue = fgValue;
                 }
             }
@@ -356,7 +443,7 @@ namespace AvaloniaAppCrypto.ViewModels
 
                 LastUpdated = DateTime.Now.ToString("HH:mm:ss");
                 if (showToast)
-                    _toastService.Show("Veriler yenilendi", ToastType.Success, 2000);
+                    _toastService.Show(Localizer.Translate("ToastRefreshed"), ToastType.Success, 2000);
             }
             finally
             {
@@ -437,7 +524,7 @@ namespace AvaloniaAppCrypto.ViewModels
             }
             catch (Exception ex)
             {
-                _toastService.Show($"Veri yüklenemedi: {ex.Message}", ToastType.Error);
+                _toastService.Show(Localizer.Format("ErrorData", ex.Message), ToastType.Error);
             }
         }
 
@@ -481,7 +568,7 @@ namespace AvaloniaAppCrypto.ViewModels
             {
                 MarketSegments.Add(new Models.ChartSegment
                 {
-                    Label = "Diğer",
+                    Label = Localizer.Translate("CommonOther"),
                     Value = other,
                     Color = "#64748B"
                 });
@@ -630,9 +717,10 @@ namespace AvaloniaAppCrypto.ViewModels
         {
             _settings.CoinGeckoApiKey = CoinGeckoApiKey;
             _settings.CryptoCompareApiKey = CryptoCompareApiKey;
+            _settings.Language = SelectedLanguage;
             await _settingsService.SaveSettingsAsync(_settings);
             StartAutoRefresh();
-            _toastService.Show("Ayarlar kaydedildi", ToastType.Success, 3000);
+            _toastService.Show(Localizer.Translate("ToastSettingsSaved"), ToastType.Success, 3000);
         }
 
         private void StartAutoRefresh()
@@ -653,11 +741,11 @@ namespace AvaloniaAppCrypto.ViewModels
             try
             {
                 await _coinGeckoService.GetTopCoinsAsync(1);
-                _toastService.Show("CoinGecko API anahtarı geçerli", ToastType.Success, 3000);
+                _toastService.Show(Localizer.Translate("ToastCoinGeckoValid"), ToastType.Success, 3000);
             }
             catch (Exception ex)
             {
-                _toastService.Show($"CoinGecko API hatası: {ex.Message}", ToastType.Error, 0);
+                _toastService.Show(Localizer.Format("ErrorCoinGecko", ex.Message), ToastType.Error, 0);
             }
         }
 
@@ -666,7 +754,7 @@ namespace AvaloniaAppCrypto.ViewModels
             try
             {
                 await _binanceWsService.ConnectAsync();
-                ConnectionStatusText = "Bağlı"; ConnectionStatusColor = "#10B981"; IsConnected = true;
+                SetConnectionStatus("MainConnected", "#10B981", true);
             }
             catch
             {
@@ -674,12 +762,12 @@ namespace AvaloniaAppCrypto.ViewModels
                 {
                     var assets = Coins.Select(c => c.Id).ToList();
                     await _coinCapWsService.ConnectAsync(assets);
-                    ConnectionStatusText = "CoinCap (Yedek)"; ConnectionStatusColor = "#F59E0B"; IsConnected = true;
+                    SetConnectionStatus("MainFallback", "#F59E0B", true);
                 }
                 catch
                 {
-                    ConnectionStatusText = "Bağlantı Yok"; ConnectionStatusColor = "#EF4444"; IsConnected = false;
-                    _toastService.Show("WebSocket bağlantısı kurulamadı", ToastType.Error, 0);
+                    SetConnectionStatus("MainDisconnected", "#EF4444", false);
+                    _toastService.Show(Localizer.Translate("ErrorWebSocket"), ToastType.Error, 0);
                 }
             }
         }
@@ -715,7 +803,7 @@ namespace AvaloniaAppCrypto.ViewModels
                 if (triggered.Count > 0)
                 {
                     foreach (var t in triggered)
-                        _toastService.Show($"Alarm tetiklendi: {t.CoinSymbol} {t.Condition} {t.TargetPrice:C2}", ToastType.Warning, 0);
+                        _toastService.Show(Localizer.Format("ToastAlertTriggered", t.CoinSymbol, t.ConditionText, t.TargetPrice.ToString("C2")), ToastType.Warning, 0);
                     await LoadAlertsAsync();
                 }
             }
@@ -744,13 +832,13 @@ namespace AvaloniaAppCrypto.ViewModels
             IsConnected = isOnline;
             if (!isOnline)
             {
-                ConnectionStatusText = "İnternet Yok"; ConnectionStatusColor = "#EF4444";
-                _toastService.Show("İnternet bağlantısı kesildi", ToastType.Error, 0);
+                SetConnectionStatus("MainNoInternet", "#EF4444", false);
+                _toastService.Show(Localizer.Translate("ErrorInternetLost"), ToastType.Error, 0);
             }
             else
             {
-                ConnectionStatusText = "Bağlı"; ConnectionStatusColor = "#10B981";
-                _toastService.Show("Bağlantı yenilendi", ToastType.Success, 3000);
+                SetConnectionStatus("MainConnected", "#10B981", true);
+                _toastService.Show(Localizer.Translate("ToastConnectionRestored"), ToastType.Success, 3000);
             }
         }
 
@@ -764,6 +852,7 @@ namespace AvaloniaAppCrypto.ViewModels
                 {
                     if (a.IsActive) Alerts.Add(a); else TriggeredAlerts.Add(a);
                 }
+                UpdateAlertHeaders();
             }
             catch { }
         }
@@ -783,6 +872,9 @@ namespace AvaloniaAppCrypto.ViewModels
             }
             catch { }
         }
+
+        partial void OnNewsLastUpdateChanged(string value) =>
+            NewsLastUpdateText = Localizer.Format("NewsLastUpdated", value);
 
         private void ApplyNewsFilter()
         {
@@ -819,7 +911,7 @@ namespace AvaloniaAppCrypto.ViewModels
         [RelayCommand]
         private void SetNewsCategory(string? category)
         {
-            NewsCategory = string.IsNullOrWhiteSpace(category) ? "Tümü" : category;
+            NewsCategory = string.IsNullOrWhiteSpace(category) ? "All" : category;
         }
 
         [RelayCommand]
@@ -849,7 +941,7 @@ namespace AvaloniaAppCrypto.ViewModels
             }
             catch
             {
-                _toastService.Show("Haber bağlantısı açılamadı", ToastType.Error, 3000);
+                _toastService.Show(Localizer.Translate("ErrorLink"), ToastType.Error, 3000);
             }
         }
 
@@ -870,8 +962,8 @@ namespace AvaloniaAppCrypto.ViewModels
         [RelayCommand]
         private async Task AddPortfolioEntry()
         {
-            if (NewPortfolioCoin == null) { _toastService.Show("Coin seçin", ToastType.Error, 2000); return; }
-            if (NewPortfolioAmount <= 0) { _toastService.Show("Miktar girin", ToastType.Error, 2000); return; }
+            if (NewPortfolioCoin == null) { _toastService.Show(Localizer.Translate("ErrorSelectCoin"), ToastType.Error, 2000); return; }
+            if (NewPortfolioAmount <= 0) { _toastService.Show(Localizer.Translate("ErrorEnterAmount"), ToastType.Error, 2000); return; }
             var entry = new PortfolioEntry
             {
                 CoinId = NewPortfolioCoin.Id,
@@ -884,7 +976,7 @@ namespace AvaloniaAppCrypto.ViewModels
             await _portfolioService.AddEntryAsync(entry);
             await LoadPortfolioAsync();
             IsAddPortfolioOpen = false;
-            _toastService.Show("Portföy girişi eklendi", ToastType.Success, 2000);
+            _toastService.Show(Localizer.Translate("ToastPortfolioAdded"), ToastType.Success, 2000);
         }
 
         // Alert commands
@@ -900,8 +992,8 @@ namespace AvaloniaAppCrypto.ViewModels
         [RelayCommand]
         private async Task AddAlert()
         {
-            if (NewAlertCoin == null) { _toastService.Show("Coin seçin", ToastType.Error, 2000); return; }
-            if (NewAlertTargetPrice <= 0) { _toastService.Show("Hedef fiyat girin", ToastType.Error, 2000); return; }
+            if (NewAlertCoin == null) { _toastService.Show(Localizer.Translate("ErrorSelectCoin"), ToastType.Error, 2000); return; }
+            if (NewAlertTargetPrice <= 0) { _toastService.Show(Localizer.Translate("ErrorEnterTarget"), ToastType.Error, 2000); return; }
             var alert = new PriceAlert
             {
                 CoinId = NewAlertCoin.Id,
@@ -909,14 +1001,14 @@ namespace AvaloniaAppCrypto.ViewModels
                 CoinSymbol = NewAlertCoin.Symbol,
                 CoinImage = NewAlertCoin.Image,
                 TargetPrice = NewAlertTargetPrice,
-                Condition = NewAlertCondition,
+                Condition = NormalizeCondition(NewAlertCondition),
                 CurrentPriceAtCreation = NewAlertCoin.CurrentPrice,
                 IsActive = true
             };
             await _alertService.AddAlertAsync(alert);
             await LoadAlertsAsync();
             IsAddAlertOpen = false;
-            _toastService.Show("Alarm eklendi", ToastType.Success, 2000);
+            _toastService.Show(Localizer.Translate("ToastAlertAdded"), ToastType.Success, 2000);
         }
 
         [RelayCommand]

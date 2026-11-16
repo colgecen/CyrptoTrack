@@ -11,7 +11,7 @@ namespace AvaloniaAppCrypto.Tests
             new() { Title = title, Categories = cats, Source = source };
 
         [Fact]
-        public void Tumu_ReturnsEverything()
+        public void All_ReturnsEverything()
         {
             var articles = new List<NewsArticle>
             {
@@ -19,7 +19,7 @@ namespace AvaloniaAppCrypto.Tests
                 Article("Ethereum merge", "ETH")
             };
 
-            Assert.Equal(2, NewsFilter.Apply(articles, "Tümü", "").Count);
+            Assert.Equal(2, NewsFilter.Apply(articles, "All", "").Count);
         }
 
         [Fact]
@@ -75,8 +75,8 @@ namespace AvaloniaAppCrypto.Tests
                 Article("Other story", "", "Decrypt")
             };
 
-            Assert.Single(NewsFilter.Apply(articles, "Tümü", "etf"));
-            Assert.Single(NewsFilter.Apply(articles, "Tümü", "decrypt"));
+            Assert.Single(NewsFilter.Apply(articles, "All", "etf"));
+            Assert.Single(NewsFilter.Apply(articles, "All", "decrypt"));
         }
 
         [Fact]

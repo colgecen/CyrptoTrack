@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Text.RegularExpressions;
 using Avalonia.Media;
+using AvaloniaAppCrypto.Localization;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaAppCrypto.Models
@@ -29,7 +30,7 @@ namespace AvaloniaAppCrypto.Models
         private string BuildPlainBody()
         {
             if (string.IsNullOrWhiteSpace(Body))
-                return "Bu haber için özet metni bulunmuyor. Kaynağa giderek haberin tamamını okuyabilirsiniz.";
+                return Localizer.Translate("NewsNoSummary");
 
             // Gövde HTML olarak geliyor: etiketleri temizle, kaçış karakterlerini çöz.
             var text = Regex.Replace(Body, "<[^>]+>", " ");
@@ -38,6 +39,13 @@ namespace AvaloniaAppCrypto.Models
             // Etiket kaldırmadan kalan boşlukları noktalama öncesinde temizle.
             text = Regex.Replace(text, @"\s+([.,!?;:])", "$1");
             return text;
+        }
+
+        public void RefreshLocalizedText()
+        {
+            _plainBody = null;
+            OnPropertyChanged(nameof(PublishedOnText));
+            OnPropertyChanged(nameof(PlainBody));
         }
     }
 }

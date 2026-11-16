@@ -3,13 +3,19 @@
              x:Class="AvaloniaAppCrypto.Views.SettingsView">
     <ScrollViewer AllowAutoHide="True">
         <StackPanel Spacing="24" Margin="28,24,28,32" MaxWidth="640">
-            <TextBlock Text="Ayarlar" FontSize="22" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
+            <TextBlock Text="{Binding Loc[SettingsTitle]}" FontSize="22" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
 
             <Border Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="16" Padding="24">
                 <StackPanel Spacing="20">
-                    <TextBlock Text="Görünüm" FontSize="16" FontWeight="600" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                    <TextBlock Text="{Binding Loc[SettingsAppearance]}" FontSize="16" FontWeight="600" Foreground="{DynamicResource TextPrimaryBrush}"/>
                     <Grid ColumnDefinitions="160,*">
-                        <TextBlock Text="Para Birimi" FontSize="14" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding Loc[SettingsLanguage]}" FontSize="14" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                        <ComboBox Grid.Column="1" Width="160" ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage}"
+                                  Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
+                                  BorderBrush="#1F2532" CornerRadius="8"/>
+                    </Grid>
+                    <Grid ColumnDefinitions="160,*">
+                        <TextBlock Text="{Binding Loc[SettingsCurrency]}" FontSize="14" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                         <ComboBox Grid.Column="1" Width="120" Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextPrimaryBrush}" 
                                   BorderBrush="#1F2532" CornerRadius="8">
                             <ComboBoxItem>USD</ComboBoxItem>
@@ -22,21 +28,21 @@
 
             <Border Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="16" Padding="24">
                 <StackPanel Spacing="20">
-                    <TextBlock Text="API Anahtarları" FontSize="16" FontWeight="600" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                    <TextBlock Text="{Binding Loc[SettingsApiKeys]}" FontSize="16" FontWeight="600" Foreground="{DynamicResource TextPrimaryBrush}"/>
                     <Grid ColumnDefinitions="160,*">
                         <TextBlock Text="CoinGecko" FontSize="14" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                         <TextBox Grid.Column="1" Text="{Binding CoinGeckoApiKey}" PasswordChar="•"
-                                 PlaceholderText="CoinGecko API anahtarı" Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
+                                 PlaceholderText="{Binding Loc[SettingsCoinGeckoPlaceholder]}" Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
                                  BorderBrush="#1F2532" CornerRadius="8"/>
                     </Grid>
                     <Grid ColumnDefinitions="160,*">
                         <TextBlock Text="CryptoCompare" FontSize="14" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                         <TextBox Grid.Column="1" Text="{Binding CryptoCompareApiKey}" PasswordChar="•"
-                                 PlaceholderText="CryptoCompare API anahtarı" Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
+                                 PlaceholderText="{Binding Loc[SettingsCryptoComparePlaceholder]}" Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
                                  BorderBrush="#1F2532" CornerRadius="8"/>
                     </Grid>
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <Button Content="API Anahtarlarını Test Et" Command="{Binding TestApiKeysCommand}"
+                        <Button Content="{Binding Loc[SettingsTestApiKeys]}" Command="{Binding TestApiKeysCommand}"
                                 Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" CornerRadius="8"
                                 Padding="14,8" FontSize="13"/>
                     </StackPanel>
@@ -45,12 +51,12 @@
 
             <Border Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="16" Padding="24">
                 <StackPanel Spacing="20">
-                    <TextBlock Text="Bağlantı" FontSize="16" FontWeight="600" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                    <TextBlock Text="{Binding Loc[SettingsConnection]}" FontSize="16" FontWeight="600" Foreground="{DynamicResource TextPrimaryBrush}"/>
                     <Grid ColumnDefinitions="160,*">
                         <TextBlock Text="WebSocket" FontSize="14" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                         <ComboBox Grid.Column="1" Width="160" SelectedIndex="0" Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextPrimaryBrush}" 
                                   BorderBrush="#1F2532" CornerRadius="8">
-                            <ComboBoxItem>Otomatik</ComboBoxItem>
+                            <ComboBoxItem Content="{Binding Loc[SettingsAutomatic]}"/>
                             <ComboBoxItem>Binance</ComboBoxItem>
                             <ComboBoxItem>CoinCap</ComboBoxItem>
                         </ComboBox>
@@ -60,14 +66,14 @@
 
             <Border Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="16" Padding="24">
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Hakkında" FontSize="16" FontWeight="600" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                    <TextBlock Text="{Binding Loc[SettingsAbout]}" FontSize="16" FontWeight="600" Foreground="{DynamicResource TextPrimaryBrush}"/>
                     <TextBlock Text="CryptoTrack v1.0.0" FontSize="15" FontWeight="600" Foreground="{DynamicResource TextPrimaryBrush}"/>
                     <TextBlock Text="Avalonia UI + .NET 8" FontSize="13" Foreground="{DynamicResource TextSecondaryBrush}"/>
-                    <TextBlock Text="Gerçek zamanlı kripto para takip uygulaması" FontSize="13" Foreground="{DynamicResource TextMutedBrush}"/>
+                    <TextBlock Text="{Binding Loc[SettingsAboutDescription]}" FontSize="13" Foreground="{DynamicResource TextMutedBrush}"/>
                 </StackPanel>
             </Border>
 
-            <Button Content="Ayarları Kaydet" Background="#00D1FF" Foreground="{DynamicResource TextPrimaryBrush}" 
+            <Button Content="{Binding Loc[SettingsSave]}" Background="#00D1FF" Foreground="{DynamicResource TextPrimaryBrush}" 
                     BorderThickness="0" CornerRadius="8" Padding="16,10" FontSize="14" FontWeight="600"
                     HorizontalAlignment="Left" Command="{Binding SaveSettingsCommand}"/>
         </StackPanel>

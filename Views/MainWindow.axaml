@@ -27,7 +27,7 @@
                     <Button Width="36" Height="36" Padding="0" CornerRadius="11"
                             Background="#12161F" BorderBrush="#1F2532" BorderThickness="1"
                             Command="{Binding ToggleSidebarCommand}"
-                            ToolTip.Tip="Menüyü aç / kapat"
+                            ToolTip.Tip="{Binding Loc[MainToggleSidebar]}"
                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="3">
                             <Border Width="16" Height="2" CornerRadius="1" Background="#A7B0BF"/>
@@ -67,7 +67,7 @@
                     IsVisible="{Binding IsSidebarCollapsed, Converter={StaticResource InverseBoolConverter}}">
                 <Grid RowDefinitions="Auto,*,Auto">
                     <!-- Section label -->
-                    <TextBlock Margin="18,18,18,10" Text="NAVİGASYON" FontSize="10" FontWeight="800"
+                    <TextBlock Margin="18,18,18,10" Text="{Binding Loc[MainNavigation]}" FontSize="10" FontWeight="800"
                                Foreground="#3A414F" LetterSpacing="1.4"/>
 
                     <!-- Items -->

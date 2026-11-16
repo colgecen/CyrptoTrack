@@ -5,8 +5,8 @@
     <ScrollViewer AllowAutoHide="True">
         <StackPanel Spacing="20" Margin="28,24,28,32">
             <Grid ColumnDefinitions="*,Auto">
-                <TextBlock Text="Alarmlar" FontSize="22" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                <Button Grid.Column="1" Content="+ Alarm Ekle" Background="#00D1FF" Foreground="{DynamicResource TextPrimaryBrush}" 
+                <TextBlock Text="{Binding Loc[AlertsTitle]}" FontSize="22" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                <Button Grid.Column="1" Content="{Binding Loc[AlertsAdd]}" Background="#00D1FF" Foreground="{DynamicResource TextPrimaryBrush}" 
                         BorderThickness="0" CornerRadius="8" Padding="16,8" FontSize="13" FontWeight="600"
                         Command="{Binding OpenAddAlertCommand}"/>
             </Grid>
@@ -14,27 +14,27 @@
             <!-- Add Alert Form -->
             <Border IsVisible="{Binding IsAddAlertOpen}" Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="16" Padding="20">
                 <StackPanel Spacing="12">
-                    <TextBlock Text="Yeni Alarm" FontSize="16" FontWeight="600" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                    <TextBlock Text="{Binding Loc[AlertsNew]}" FontSize="16" FontWeight="600" Foreground="{DynamicResource TextPrimaryBrush}"/>
                     <Grid ColumnDefinitions="120,*">
-                        <TextBlock Text="Coin" FontSize="13" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding Loc[CommonCoin]}" FontSize="13" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                         <ComboBox Grid.Column="1" ItemsSource="{Binding Coins}" SelectedItem="{Binding NewAlertCoin}"
                                   DisplayMemberBinding="{Binding Name}" Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
                                   BorderBrush="#1F2532" CornerRadius="8"/>
                     </Grid>
                     <Grid ColumnDefinitions="120,*">
-                        <TextBlock Text="Koşul" FontSize="13" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding Loc[AlertsCondition]}" FontSize="13" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                         <ComboBox Grid.Column="1" ItemsSource="{Binding AlertConditions}" SelectedItem="{Binding NewAlertCondition}" Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
                                   BorderBrush="#1F2532" CornerRadius="8"/>
                     </Grid>
                     <Grid ColumnDefinitions="120,*">
-                        <TextBlock Text="Hedef Fiyat" FontSize="13" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding Loc[AlertsTargetPrice]}" FontSize="13" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                         <TextBox Grid.Column="1" Text="{Binding NewAlertTargetPrice}" Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
                                  BorderBrush="#1F2532" CornerRadius="8"/>
                     </Grid>
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <Button Content="Ekle" Command="{Binding AddAlertCommand}" Background="#00D1FF" Foreground="{DynamicResource TextPrimaryBrush}"
+                        <Button Content="{Binding Loc[CommonAdd]}" Command="{Binding AddAlertCommand}" Background="#00D1FF" Foreground="{DynamicResource TextPrimaryBrush}"
                                 BorderThickness="0" CornerRadius="8" Padding="16,8" FontSize="13" FontWeight="600"/>
-                        <Button Content="İptal" Command="{Binding CloseAddAlertCommand}" Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextSecondaryBrush}"
+                        <Button Content="{Binding Loc[CommonCancel]}" Command="{Binding CloseAddAlertCommand}" Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextSecondaryBrush}"
                                 BorderThickness="0" CornerRadius="8" Padding="16,8" FontSize="13"/>
                     </StackPanel>
                 </StackPanel>
@@ -45,13 +45,13 @@
                     Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="16" Padding="48" HorizontalAlignment="Center" Margin="0,24">
                 <StackPanel Spacing="16" HorizontalAlignment="Center">
                     <TextBlock Text="🔔" FontSize="64" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Henüz alarm eklemediniz" FontSize="16" Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Fiyat alarmı eklemek için + butonuna tıklayın" FontSize="13" Foreground="{DynamicResource TextMutedBrush}" HorizontalAlignment="Center"/>
+                    <TextBlock Text="{Binding Loc[AlertsEmptyTitle]}" FontSize="16" Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Center"/>
+                    <TextBlock Text="{Binding Loc[AlertsEmptyHint]}" FontSize="13" Foreground="{DynamicResource TextMutedBrush}" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Border>
 
             <!-- Active Alerts -->
-            <TextBlock Text="{Binding Alerts.Count, StringFormat='{}Aktif Alarmlar ({0})'}" FontSize="16" FontWeight="600" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,8,0,0"/>
+            <TextBlock Text="{Binding AlertsActiveHeader}" FontSize="16" FontWeight="600" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,8,0,0"/>
             <ItemsControl ItemsSource="{Binding Alerts}">
                 <ItemsControl.DataTemplates>
                     <DataTemplate DataType="models:PriceAlert">
@@ -62,7 +62,7 @@
                                     <TextBlock Text="{Binding CoinSymbol}" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}"/>
                                 </StackPanel>
                                 <TextBlock Grid.Column="1" Margin="16,0" VerticalAlignment="Center" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="13">
-                                    <Run Text="{Binding Condition}"/> <Run Text="{Binding TargetPrice, StringFormat='${0:N2}'}"/>
+                                    <Run Text="{Binding ConditionText}"/> <Run Text="{Binding TargetPrice, StringFormat='${0:N2}'}"/>
                                 </TextBlock>
                                 <Button Grid.Column="2" Background="Transparent" BorderThickness="0" Content="🔕"
                                         Foreground="{DynamicResource TextSecondaryBrush}" FontSize="14"
@@ -79,7 +79,7 @@
             </ItemsControl>
 
             <!-- Triggered Alerts -->
-            <TextBlock Text="{Binding TriggeredAlerts.Count, StringFormat='{}Geçmiş Alarmlar ({0})'}" FontSize="16" FontWeight="600" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,12,0,0"/>
+            <TextBlock Text="{Binding AlertsHistoryHeader}" FontSize="16" FontWeight="600" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,12,0,0"/>
             <ItemsControl ItemsSource="{Binding TriggeredAlerts}">
                 <ItemsControl.DataTemplates>
                     <DataTemplate DataType="models:PriceAlert">

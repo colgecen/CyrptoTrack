@@ -3,24 +3,95 @@ name: Release
 on:
   push:
     tags:
-      - 'v*'
+      - 'v*.*.*'
+
+permissions:
+  contents: write
 
 jobs:
-  publish:
+  linux:
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
+        arch: [ x86_64, aarch64 ]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
-      - name: Publish
-        run: dotnet publish AvaloniaAppCrypto.csproj -c Release -o ./publish
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
+      - name: Install packaging tools
+        run: sudo apt-get update && sudo apt-get install -y imagemagick
+      - name: Build Linux assets
+        env:
+          VERSION: ${{ github.ref_name }}
+        run: |
+          export VERSION="${VERSION#v}"
+          ./cryptotrack --build linux all "${{ matrix.arch }}"
+      - uses: actions/upload-artifact@v4
         with:
-          name: cryptotrack-${{ matrix.os }}
-          path: ./publish
+          name: linux-${{ matrix.arch }}
+          path: build/dist/*
+          if-no-files-found: error
+
+  windows:
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [ x86_64, aarch64 ]
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Build Windows executable
+        shell: bash
+        env:
+          VERSION: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          VERSION="${VERSION#v}"
+          case "${{ matrix.arch }}" in
+            x86_64) RID=win-x64; LABEL=x86_64 ;;
+            aarch64) RID=win-arm64; LABEL=arm64 ;;
+          esac
+          dotnet publish AvaloniaAppCrypto.csproj -c Release -r "$RID" --self-contained true \
+            -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true \
+            -p:DebugType=None -p:DebugSymbols=false -p:Version="$VERSION" \
+            -o publish
+          mkdir -p build/dist
+          cp publish/cryptotrack.exe "build/dist/cryptotrack-$VERSION-windows-$LABEL.exe"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-${{ matrix.arch }}
+          path: build/dist/*
+          if-no-files-found: error
+
+  release:
+    needs: [ linux, windows ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Create SHA256SUMS
+        run: |
+          cd dist
+          rm -f SHA256SUMS
+          sha256sum -- * > SHA256SUMS
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          VERSION="${TAG#v}"
+          PRERELEASE=""
+          case "$TAG" in
+            *-*) PRERELEASE="--prerelease" ;;
+          esac
+          gh release create "$TAG" dist/* \
+            --title "$TAG" \
+            --generate-notes \
+            $PRERELEASE

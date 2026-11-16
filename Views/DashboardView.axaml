@@ -11,10 +11,10 @@
             <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,4">
                 <StackPanel Spacing="2">
                     <TextBlock Text="Dashboard" FontSize="26" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                    <TextBlock Text="Kripto piyasasının canlı görünümü" FontSize="13" Foreground="{DynamicResource TextMutedBrush}"/>
+                    <TextBlock Text="{Binding Loc[DashboardSubtitle]}" FontSize="13" Foreground="{DynamicResource TextMutedBrush}"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Bottom">
-                    <Button Content="Yenile" Command="{Binding RefreshCommand}"
+                    <Button Content="{Binding Loc[CommonRefresh]}" Command="{Binding RefreshCommand}"
                             Background="{DynamicResource AccentBlueBrush}" Foreground="White"
                             BorderThickness="0" CornerRadius="8" Padding="14,7" FontSize="12" FontWeight="600"/>
                 </StackPanel>
@@ -32,7 +32,7 @@
                     </Border.Background>
                     <StackPanel Spacing="10">
                         <Grid ColumnDefinitions="*,Auto">
-                            <TextBlock Text="Piyasa Değeri" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Loc[DashboardMarketCap]}" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                             <Border Grid.Column="1" Background="#1A2A3A" CornerRadius="8" Padding="6,4">
                                 <TextBlock Text="🌍" FontSize="12"/>
                             </Border>
@@ -42,7 +42,7 @@
                             <Border Background="#0F2A1A" CornerRadius="6" Padding="6,2">
                                 <TextBlock Text="{Binding MarketCapChange, StringFormat='{}▲ {0}'}" FontSize="11" FontWeight="600" Foreground="#0ECB81"/>
                             </Border>
-                            <TextBlock Text="son 24s" FontSize="11" Foreground="{DynamicResource TextMutedBrush}"/>
+                            <TextBlock Text="{Binding Loc[DashboardLast24h]}" FontSize="11" Foreground="{DynamicResource TextMutedBrush}"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
@@ -57,7 +57,7 @@
                     </Border.Background>
                     <StackPanel Spacing="10">
                         <Grid ColumnDefinitions="*,Auto">
-                            <TextBlock Text="24s Hacim" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Loc[DashboardVolume24h]}" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                             <Border Grid.Column="1" Background="#1A2A2E" CornerRadius="8" Padding="6,4">
                                 <TextBlock Text="📈" FontSize="12"/>
                             </Border>
@@ -67,7 +67,7 @@
                             <Border Background="#0F2A1A" CornerRadius="6" Padding="6,2">
                                 <TextBlock Text="▲ 12%" FontSize="11" FontWeight="600" Foreground="#0ECB81"/>
                             </Border>
-                            <TextBlock Text="artış" FontSize="11" Foreground="{DynamicResource TextMutedBrush}"/>
+                            <TextBlock Text="{Binding Loc[DashboardIncrease]}" FontSize="11" Foreground="{DynamicResource TextMutedBrush}"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
@@ -92,7 +92,7 @@
                             <Border Background="#2A1A1A" CornerRadius="6" Padding="6,2">
                                 <TextBlock Text="▼ 0.3%" FontSize="11" FontWeight="600" Foreground="#F6465D"/>
                             </Border>
-                            <TextBlock Text="son 7g" FontSize="11" Foreground="{DynamicResource TextMutedBrush}"/>
+                            <TextBlock Text="{Binding Loc[DashboardLast7d]}" FontSize="11" Foreground="{DynamicResource TextMutedBrush}"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
@@ -107,14 +107,14 @@
                     </Border.Background>
                     <StackPanel Spacing="10">
                         <Grid ColumnDefinitions="*,Auto">
-                            <TextBlock Text="Korku &amp; Açgözlülük" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Loc[DashboardFearGreed]}" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                             <Border Grid.Column="1" Background="#241A2A" CornerRadius="8" Padding="6,4">
                                 <TextBlock Text="😱" FontSize="12"/>
                             </Border>
                         </Grid>
                         <TextBlock Text="{Binding FearGreedIndex}" FontSize="24" FontWeight="700" Foreground="#F7D354"/>
                         <Border Background="#F7D354" CornerRadius="20" Padding="10,4" HorizontalAlignment="Left" Opacity="0.9">
-                            <TextBlock Text="Açgözlü" FontSize="11" FontWeight="600" Foreground="#0B0E14"/>
+                            <TextBlock Text="{Binding Loc[DashboardGreed]}" FontSize="11" FontWeight="600" Foreground="#0B0E14"/>
                         </Border>
                     </StackPanel>
                 </Border>
@@ -131,19 +131,19 @@
                             </Border>
                             <StackPanel Spacing="0">
                                 <TextBlock Text="Bitcoin" FontSize="17" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                                <TextBlock Text="7 Günlük Fiyat Grafiği" FontSize="11" Foreground="{DynamicResource TextMutedBrush}"/>
+                                <TextBlock Text="{Binding Loc[DashboardChart7d]}" FontSize="11" Foreground="{DynamicResource TextMutedBrush}"/>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="4">
-                            <Button Content="1G" Command="{Binding LoadBtcChartCommand}" CommandParameter="1"
+                            <Button Content="{Binding Loc[Period1d]}" Command="{Binding LoadBtcChartCommand}" CommandParameter="1"
                                     Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" CornerRadius="6" Padding="10,5" FontSize="11" FontWeight="600"/>
-                            <Button Content="1H" Command="{Binding LoadBtcChartCommand}" CommandParameter="7"
+                            <Button Content="{Binding Loc[Period1w]}" Command="{Binding LoadBtcChartCommand}" CommandParameter="7"
                                     Background="{DynamicResource AccentBlueBrush}" Foreground="White" BorderThickness="0" CornerRadius="6" Padding="10,5" FontSize="11" FontWeight="600"/>
-                            <Button Content="1Ay" Command="{Binding LoadBtcChartCommand}" CommandParameter="30"
+                            <Button Content="{Binding Loc[Period1m]}" Command="{Binding LoadBtcChartCommand}" CommandParameter="30"
                                     Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" CornerRadius="6" Padding="10,5" FontSize="11" FontWeight="600"/>
-                            <Button Content="3Ay" Command="{Binding LoadBtcChartCommand}" CommandParameter="90"
+                            <Button Content="{Binding Loc[Period3m]}" Command="{Binding LoadBtcChartCommand}" CommandParameter="90"
                                     Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" CornerRadius="6" Padding="10,5" FontSize="11" FontWeight="600"/>
-                            <Button Content="1Y" Command="{Binding LoadBtcChartCommand}" CommandParameter="365"
+                            <Button Content="{Binding Loc[Period1y]}" Command="{Binding LoadBtcChartCommand}" CommandParameter="365"
                                     Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" CornerRadius="6" Padding="10,5" FontSize="11" FontWeight="600"/>
                         </StackPanel>
                     </Grid>
@@ -165,14 +165,14 @@
                                     <TextBlock Text="📊" FontSize="14"/>
                                 </Border>
                                 <StackPanel Spacing="0">
-                                    <TextBlock Text="Mum Grafiği" FontSize="17" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                    <TextBlock Text="{Binding Loc[DashboardCandlestick]}" FontSize="17" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
                                     <TextBlock Text="Bitcoin OHLC" FontSize="11" Foreground="{DynamicResource TextMutedBrush}"/>
                                 </StackPanel>
                             </StackPanel>
                             <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="4">
-                                <Button Content="1H" Command="{Binding LoadBtcCandlesCommand}" CommandParameter="7"
+                                <Button Content="{Binding Loc[Period1w]}" Command="{Binding LoadBtcCandlesCommand}" CommandParameter="7"
                                         Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" CornerRadius="6" Padding="10,5" FontSize="11" FontWeight="600"/>
-                                <Button Content="1Ay" Command="{Binding LoadBtcCandlesCommand}" CommandParameter="30"
+                                <Button Content="{Binding Loc[Period1m]}" Command="{Binding LoadBtcCandlesCommand}" CommandParameter="30"
                                         Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" CornerRadius="6" Padding="10,5" FontSize="11" FontWeight="600"/>
                             </StackPanel>
                         </Grid>
@@ -186,8 +186,8 @@
                 <Border Grid.Column="1" CornerRadius="16" Padding="24"
                         Background="{DynamicResource BackgroundSecondaryBrush}">
                     <StackPanel Spacing="12" HorizontalAlignment="Center">
-                        <TextBlock Text="Piyasa Dominansı" FontSize="17" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}" HorizontalAlignment="Center"/>
-                        <TextBlock Text="Top 6 Coin" FontSize="11" Foreground="{DynamicResource TextMutedBrush}" HorizontalAlignment="Center" Margin="0,-8,0,0"/>
+                        <TextBlock Text="{Binding Loc[DashboardMarketDominance]}" FontSize="17" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding Loc[DashboardTop6]}" FontSize="11" Foreground="{DynamicResource TextMutedBrush}" HorizontalAlignment="Center" Margin="0,-8,0,0"/>
                         <controls:DonutChart Segments="{Binding MarketSegments}" Height="180" Width="180" Margin="0,8,0,0"/>
                         <StackPanel Spacing="4" HorizontalAlignment="Center" Margin="0,8,0,0">
                             <ItemsControl ItemsSource="{Binding MarketSegments}">
@@ -225,13 +225,13 @@
                             </Border>
                             <StackPanel Spacing="0">
                                 <TextBlock Text="BTC vs ETH" FontSize="17" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                                <TextBlock Text="Karşılaştırmalı Fiyat Grafiği" FontSize="11" Foreground="{DynamicResource TextMutedBrush}"/>
+                                <TextBlock Text="{Binding Loc[DashboardComparisonSubtitle]}" FontSize="11" Foreground="{DynamicResource TextMutedBrush}"/>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="4">
-                            <Button Content="7G" Command="{Binding LoadComparisonChartCommand}" CommandParameter="7"
+                            <Button Content="{Binding Loc[Period7dShort]}" Command="{Binding LoadComparisonChartCommand}" CommandParameter="7"
                                     Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" CornerRadius="6" Padding="10,5" FontSize="11" FontWeight="600"/>
-                            <Button Content="30G" Command="{Binding LoadComparisonChartCommand}" CommandParameter="30"
+                            <Button Content="{Binding Loc[Period30d]}" Command="{Binding LoadComparisonChartCommand}" CommandParameter="30"
                                     Background="{DynamicResource BackgroundTertiaryBrush}" Foreground="{DynamicResource TextSecondaryBrush}" BorderThickness="0" CornerRadius="6" Padding="10,5" FontSize="11" FontWeight="600"/>
                         </StackPanel>
                     </Grid>
@@ -246,7 +246,7 @@
                 <Border CornerRadius="16" Padding="24"
                         Background="{DynamicResource BackgroundSecondaryBrush}">
                     <StackPanel Spacing="12" HorizontalAlignment="Center">
-                        <TextBlock Text="Korku &amp; Açgözlülük Endeksi" FontSize="17" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding Loc[DashboardFearGreedIndex]}" FontSize="17" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}" HorizontalAlignment="Center"/>
                         <controls:GaugeChart Value="{Binding FearGreedValue}" Height="150" Width="240" Margin="0,4,0,0"/>
                         <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
                             <TextBlock Text="{Binding FearGreedIndex}" FontSize="13" FontWeight="600" Foreground="#F7D354"/>
@@ -257,7 +257,7 @@
                 <Border Grid.Column="1" CornerRadius="16" Padding="24"
                         Background="{DynamicResource BackgroundSecondaryBrush}">
                     <StackPanel Spacing="12">
-                        <TextBlock Text="En Çok Yükselenler (24s)" FontSize="17" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                        <TextBlock Text="{Binding Loc[DashboardTopGainers]}" FontSize="17" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
                         <controls:BarChart Segments="{Binding TopGainers}" Height="170"/>
                     </StackPanel>
                 </Border>
@@ -273,12 +273,12 @@
                                 <TextBlock Text="📋" FontSize="14"/>
                             </Border>
                             <StackPanel Spacing="0">
-                                <TextBlock Text="Coin Listesi" FontSize="17" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                                <TextBlock Text="Top 50 kripto para" FontSize="11" Foreground="{DynamicResource TextMutedBrush}"/>
+                                <TextBlock Text="{Binding Loc[DashboardCoinList]}" FontSize="17" FontWeight="700" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                <TextBlock Text="{Binding Loc[DashboardTop50]}" FontSize="11" Foreground="{DynamicResource TextMutedBrush}"/>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6">
-                            <Button Content="Liste" Command="{Binding SetCoinViewModeCommand}" CommandParameter="List"
+                            <Button Content="{Binding Loc[CommonList]}" Command="{Binding SetCoinViewModeCommand}" CommandParameter="List"
                                     BorderThickness="0" CornerRadius="8" Padding="14,6" FontSize="12" FontWeight="600"
                                     Classes.active="{Binding IsListView}">
                                 <Button.Styles>
@@ -303,11 +303,11 @@
                             <Grid ColumnDefinitions="40,220,*,80,80,80,100,120,50">
                                 <Button Content="#" Command="{Binding SortCoinsCommand}" CommandParameter="Rank" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Left"/>
                                 <Button Grid.Column="1" Content="COIN" Command="{Binding SortCoinsCommand}" CommandParameter="Name" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Left"/>
-                                <Button Grid.Column="2" Content="FİYAT" Command="{Binding SortCoinsCommand}" CommandParameter="Price" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Right"/>
-                                <Button Grid.Column="3" Content="1s" Command="{Binding SortCoinsCommand}" CommandParameter="Change1h" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Right"/>
-                                <Button Grid.Column="4" Content="24s" Command="{Binding SortCoinsCommand}" CommandParameter="Change24h" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Right"/>
-                                <Button Grid.Column="5" Content="7g" Command="{Binding SortCoinsCommand}" CommandParameter="Change7d" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Right"/>
-                                <Button Grid.Column="6" Content="HACİM" Command="{Binding SortCoinsCommand}" CommandParameter="Volume" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Right"/>
+                                <Button Grid.Column="2" Content="{Binding Loc[CommonPrice]}" Command="{Binding SortCoinsCommand}" CommandParameter="Price" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Right"/>
+                                <Button Grid.Column="3" Content="{Binding Loc[Period1h]}" Command="{Binding SortCoinsCommand}" CommandParameter="Change1h" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Right"/>
+                                <Button Grid.Column="4" Content="{Binding Loc[Period24h]}" Command="{Binding SortCoinsCommand}" CommandParameter="Change24h" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Right"/>
+                                <Button Grid.Column="5" Content="{Binding Loc[Period7d]}" Command="{Binding SortCoinsCommand}" CommandParameter="Change7d" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Right"/>
+                                <Button Grid.Column="6" Content="{Binding Loc[CommonVolume]}" Command="{Binding SortCoinsCommand}" CommandParameter="Volume" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Right"/>
                                 <Button Grid.Column="7" Content="MCAP" Command="{Binding SortCoinsCommand}" CommandParameter="MarketCap" Background="Transparent" Foreground="{DynamicResource TextMutedBrush}" BorderThickness="0" FontSize="11" FontWeight="600" HorizontalAlignment="Right"/>
                             </Grid>
                         </Border>
@@ -388,19 +388,19 @@
                                         <StackPanel Spacing="8">
                                             <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
                                                 <StackPanel>
-                                                    <TextBlock Text="1s" FontSize="10" Foreground="{DynamicResource TextMutedBrush}"/>
+                                                    <TextBlock Text="{Binding Loc[Period1h]}" FontSize="10" Foreground="{DynamicResource TextMutedBrush}"/>
                                                     <TextBlock Text="{Binding PriceChangePercentage1H, StringFormat='{}{0:F2}%'}"
                                                                FontSize="12" FontWeight="600"
                                                                Foreground="{Binding PriceChangePercentage1H, Converter={StaticResource PriceChangeToColor}}"/>
                                                 </StackPanel>
                                                 <StackPanel Grid.Column="1">
-                                                    <TextBlock Text="24s" FontSize="10" Foreground="{DynamicResource TextMutedBrush}"/>
+                                                    <TextBlock Text="{Binding Loc[Period24h]}" FontSize="10" Foreground="{DynamicResource TextMutedBrush}"/>
                                                     <TextBlock Text="{Binding PriceChangePercentage24H, StringFormat='{}{0:F2}%'}"
                                                                FontSize="12" FontWeight="600"
                                                                Foreground="{Binding PriceChangePercentage24H, Converter={StaticResource PriceChangeToColor}}"/>
                                                 </StackPanel>
                                                 <StackPanel Grid.Column="2">
-                                                    <TextBlock Text="7g" FontSize="10" Foreground="{DynamicResource TextMutedBrush}"/>
+                                                    <TextBlock Text="{Binding Loc[Period7d]}" FontSize="10" Foreground="{DynamicResource TextMutedBrush}"/>
                                                     <TextBlock Text="{Binding PriceChangePercentage7D, StringFormat='{}{0:F2}%'}"
                                                                FontSize="12" FontWeight="600"
                                                                Foreground="{Binding PriceChangePercentage7D, Converter={StaticResource PriceChangeToColor}}"/>
@@ -408,12 +408,12 @@
                                             </Grid>
                                             <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
                                                 <StackPanel>
-                                                    <TextBlock Text="Hacim" FontSize="10" Foreground="{DynamicResource TextMutedBrush}"/>
+                                                    <TextBlock Text="{Binding Loc[CommonVolumeShort]}" FontSize="10" Foreground="{DynamicResource TextMutedBrush}"/>
                                                     <TextBlock Text="{Binding TotalVolume, Converter={StaticResource NumberFormat}}"
                                                                FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}"/>
                                                 </StackPanel>
                                                 <StackPanel Grid.Column="1">
-                                                    <TextBlock Text="Mcap" FontSize="10" Foreground="{DynamicResource TextMutedBrush}"/>
+                                                    <TextBlock Text="{Binding Loc[CommonMarketCapShort]}" FontSize="10" Foreground="{DynamicResource TextMutedBrush}"/>
                                                     <TextBlock Text="{Binding MarketCap, Converter={StaticResource NumberFormat}}"
                                                                FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}"/>
                                                 </StackPanel>
@@ -429,7 +429,7 @@
                     <Border Background="{DynamicResource BackgroundSecondaryBrush}" CornerRadius="16" Padding="48"
                             IsVisible="{Binding Coins.Count, Converter={StaticResource InverseBoolConverter}}">
                         <StackPanel Spacing="16" HorizontalAlignment="Center">
-                            <TextBlock Text="Veriler yükleniyor..." FontSize="16" Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding Loc[DashboardLoading]}" FontSize="16" Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Center"/>
                         </StackPanel>
                     </Border>
                 </StackPanel>
